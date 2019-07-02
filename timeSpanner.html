@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Time Span getter</title>
+	<style type="text/css">
+		.defination{
+			color: red;
+			font-size: 30px;
+		}
+		.bodyClass{
+			text-align: center;
+		}
+		.col{
+			display: inline-block;
+			margin: 100px;
+			text-align: center;
+		}
+		.info{
+			color: red;
+			border-bottom: 1px solid red;
+		}
+		.time{
+			margin-top:15px;
+			width: 100px;
+			color: red;
+		}
+	</style>
+	<script type="text/javascript">
+		function timeDiff() {
+			var start = document.getElementById("startTime");
+			var end = document.getElementById("endTime");
+			var startHour = start.value.slice(0,2);
+			var startMin = start.value.slice(3,5);
+			var endHour = end.value.slice(0,2);
+			var endMin = end.value.slice(3,5);
+			startHour = parseInt(startHour);
+			startMin = parseInt(startMin);
+			endHour = parseInt(endHour);
+			endMin = parseInt(endMin);
+			if((startHour>endHour) || (startHour==endHour && startMin > endMin))
+			{
+				alert("incorrect timings, Starting Time cannot be greater than end time");
+				return;
+			}
+			else{
+				var totalStartMin = (startHour * 60) + startMin;
+				var totalEndMin = (endHour * 60) + endMin;
+				var timeDiffInMin = totalEndMin - totalStartMin;
+				var hourDiff = parseInt(timeDiffInMin/60);
+				var minDiff = timeDiffInMin % 60;
+				document.getElementById('timediffer').innerHTML = 'time differnce is '+ hourDiff +" hours and "+ minDiff+ " minutes";
+			}
+
+
+		}
+	</script>
+</head>
+<body class="bodyClass">
+	<div class="defination">
+		This App helps you to find differnce b/w two times in hours/mins
+	</div>
+	<div>
+		<div class="col">
+			<span class="info">Enter starting time </span><br>
+			<input id="startTime" class="time" type="time">
+		</div>
+		<div class="col">
+			<span class="info">Enter leaving time</span><br>
+			<input id="endTime" class="time" type="time">
+		</div>
+		<button onclick="timeDiff()">Find time Difference</button><br>
+		<span id="timediffer" class="info"></span>
+	</div>
+</body>
+</html>
