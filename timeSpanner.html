@@ -29,6 +29,11 @@
 		function timeDiff() {
 			var start = document.getElementById("startTime");
 			var end = document.getElementById("endTime");
+			if(start.value == '' || end.value == '')
+			{
+				alert("enter a valid time first");
+				return;
+			}
 			var startHour = start.value.slice(0,2);
 			var startMin = start.value.slice(3,5);
 			var endHour = end.value.slice(0,2);
@@ -50,8 +55,6 @@
 				var minDiff = timeDiffInMin % 60;
 				document.getElementById('timediffer').innerHTML = 'time differnce is '+ hourDiff +" hours and "+ minDiff+ " minutes";
 			}
-
-
 		}
 	</script>
 </head>
