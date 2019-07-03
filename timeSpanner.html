@@ -44,7 +44,10 @@
     }
     function currentTimeDiff() {
       var today = new Date();
-      var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      if(today.getSeconds()<10)
+        var start = today.getHours() + ":" + today.getMinutes() + ":0" + today.getSeconds();
+      else
+        var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       document.getElementById("startTime").value = start;
       isCurrentTime = true
     }
@@ -58,7 +61,11 @@
       else {
         var today = new Date();
         var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        document.getElementById("startTime").value = start;
+        if(today.getSeconds()<10)
+          var start = today.getHours() + ":" + today.getMinutes() + ":0" + today.getSeconds();
+        else
+          var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      document.getElementById("startTime").value = start;
         var startHour = start.slice(0, 2);
         var startMin = start.slice(3, 5);
         var startSec = start.slice(6, 8);
