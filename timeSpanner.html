@@ -1,78 +1,118 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Time Span getter</title>
-	<style type="text/css">
-		.defination{
-			color: red;
-			font-size: 30px;
-		}
-		.bodyClass{
-			text-align: center;
-		}
-		.col{
-			display: inline-block;
-			margin: 100px;
-			text-align: center;
-		}
-		.info{
-			color: red;
-			border-bottom: 1px solid red;
-		}
-		.time{
-			margin-top:15px;
-			width: 100px;
-			color: red;
-		}
-	</style>
-	<script type="text/javascript">
-		function timeDiff() {
-			var start = document.getElementById("startTime");
-			var end = document.getElementById("endTime");
-			if(start.value == '' || end.value == '')
-			{
-				alert("enter a valid time first");
-				return;
-			}
-			var startHour = start.value.slice(0,2);
-			var startMin = start.value.slice(3,5);
-			var endHour = end.value.slice(0,2);
-			var endMin = end.value.slice(3,5);
-			startHour = parseInt(startHour);
-			startMin = parseInt(startMin);
-			endHour = parseInt(endHour);
-			endMin = parseInt(endMin);
-			if((startHour>endHour) || (startHour==endHour && startMin > endMin))
-			{
-				alert("incorrect timings, Starting Time cannot be greater than end time");
-				return;
-			}
-			else{
-				var totalStartMin = (startHour * 60) + startMin;
-				var totalEndMin = (endHour * 60) + endMin;
-				var timeDiffInMin = totalEndMin - totalStartMin;
-				var hourDiff = parseInt(timeDiffInMin/60);
-				var minDiff = timeDiffInMin % 60;
-				document.getElementById('timediffer').innerHTML = 'time differnce is '+ hourDiff +" hours and "+ minDiff+ " minutes";
-			}
-		}
-	</script>
+  <title>Time Span getter</title>
+  <style type="text/css">
+    .defination {
+      color: red;
+      font-size: 30px;
+    }
+
+    .bodyClass {
+      text-align: center;
+    }
+
+    .col {
+      display: inline-block;
+      margin: 100px;
+      text-align: center;
+    }
+
+    .info {
+      color: red;
+      border-bottom: 1px solid red;
+    }
+
+    .time {
+      margin-top: 15px;
+      width: 100px;
+      color: red;
+    }
+  </style>
+  <script type="text/javascript">
+    var isCurrentTime = false;
+    function timeDiff() {
+      if (isCurrentTime) {
+        window.setInterval(function () {
+          timeDiffGetter(isCurrentTime)
+        }, 1000);
+      }
+      else {
+        timeDiffGetter(isCurrentTime);
+      }
+    }
+    function currentTimeDiff() {
+      var today = new Date();
+      var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      document.getElementById("startTime").value = start;
+      isCurrentTime = true
+    }
+    function timeDiffGetter(isCurrentTime) {
+      if (!isCurrentTime) {
+        var start = document.getElementById("startTime");
+        var startHour = start.value.slice(0, 2);
+        var startMin = start.value.slice(3, 5);
+        var startSec = start.value.slice(6, 8);
+      }
+      else {
+        var today = new Date();
+        var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        document.getElementById("startTime").value = start;
+        var startHour = start.slice(0, 2);
+        var startMin = start.slice(3, 5);
+        var startSec = start.slice(6, 8);
+      }
+      var end = document.getElementById("endTime");
+      if (start.value == '' || end.value == '') {
+        alert("enter a valid time first");
+        return;
+      }
+      var endHour = end.value.slice(0, 2);
+      var endMin = end.value.slice(3, 5);
+      var endSec = end.value.slice(6, 8);
+      startHour = parseInt(startHour);
+      startMin = parseInt(startMin);
+      startSec = startSec == '' ? 0 : parseInt(startSec);
+      endHour = parseInt(endHour);
+      endMin = parseInt(endMin);
+      endSec = endSec == '' ? 0 : parseInt(endSec);
+
+      if ((startHour > endHour) || (startHour == endHour && startMin > endMin) || (startHour == endHour && startMin == endMin && startSec > endSec)) {
+        document.getElementById('timediffer').innerHTML = "incorrect timings, Starting Time cannot be greater than end time";
+        return;
+      }
+      else {
+        var totalStartSec = (startHour * 3600) + (startMin * 60) + startSec;
+        var totalEndSec = (endHour * 3600) + (endMin * 60) + endSec;
+        var timeDiffInSec = totalEndSec - totalStartSec;
+        var hourDiff = parseInt(timeDiffInSec / 3600);
+        var minDiff = timeDiffInSec % 3600;
+        minDiff = parseInt(minDiff / 60);
+        secDiff = parseInt(timeDiffInSec % 60);
+        document.getElementById('timediffer').innerHTML = 'time differnce is ' + hourDiff + " hours and " + minDiff + " minutes " + secDiff + " seconds";
+      }
+    }
+  </script>
 </head>
+
 <body class="bodyClass">
-	<div class="defination">
-		This App helps you to find differnce b/w two times in hours/mins
-	</div>
-	<div>
-		<div class="col">
-			<span class="info">Enter starting time </span><br>
-			<input id="startTime" class="time" type="time">
-		</div>
-		<div class="col">
-			<span class="info">Enter leaving time</span><br>
-			<input id="endTime" class="time" type="time">
-		</div>
-		<button onclick="timeDiff()">Find time Difference</button><br>
-		<span id="timediffer" class="info"></span>
-	</div>
+  <div class="defination">
+    This App helps you to find differnce b/w two times in hours/mins
+  </div>
+  <div>
+    <div class="col">
+      <span class="info">Enter starting time or <br /><button onClick="currentTimeDiff()"> fill current
+          time</button></span><br>
+      <input id="startTime" class="time" type="time" step='1'>
+    </div>
+    <div class="col">
+      <span class="info">Enter leaving time</span><br>
+      <input id="endTime" class="time" type="time" step='1'>
+    </div>
+    <button onclick="timeDiff()">Find time Difference</button><br>
+    <span id="timediffer" class="info"></span>
+  </div>
 </body>
+
 </html>
