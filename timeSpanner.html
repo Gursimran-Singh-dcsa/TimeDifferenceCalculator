@@ -42,12 +42,15 @@
         timeDiffGetter(isCurrentTime);
       }
     }
-    function currentTimeDiff() {
+    function currentTimeDiff(){
+      window.setInterval(function(){currentTimeInput()},1000);
+    }
+    function currentTimeInput() {
       var today = new Date();
       if(today.getSeconds()<10)
-        var start = today.getHours() + ":" + today.getMinutes() + ":0" + today.getSeconds();
+          var start = today.getHours() + ":" + ((today.getMinutes() < 10) ? "0" : "") + today.getMinutes()  + ":0" + today.getSeconds();
       else
-        var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var start = today.getHours() + ":" + ((today.getMinutes() < 10) ? "0" : "") +today.getMinutes() + ":" + today.getSeconds();
       document.getElementById("startTime").value = start;
       isCurrentTime = true
     }
@@ -62,9 +65,9 @@
         var today = new Date();
         var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         if(today.getSeconds()<10)
-          var start = today.getHours() + ":" + today.getMinutes() + ":0" + today.getSeconds();
+          var start = today.getHours() + ":" + ((today.getMinutes() < 10) ? "0" : "") + today.getMinutes()  + ":0" + today.getSeconds();
         else
-          var start = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          var start = today.getHours() + ":" + ((today.getMinutes() < 10) ? "0" : "") +today.getMinutes() + ":" + today.getSeconds();
       document.getElementById("startTime").value = start;
         var startHour = start.slice(0, 2);
         var startMin = start.slice(3, 5);
